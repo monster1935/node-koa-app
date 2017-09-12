@@ -1,0 +1,34 @@
+{
+  "name": "koa-app",
+  "version": "1.0.0",
+  "description": "a nodejs app use koa2",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --harmony index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/monster1935/node-koa-app.git"
+  },
+  "keywords": [
+    "node",
+    "koa"
+  ],
+  "author": "monster1935",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/monster1935/node-koa-app/issues"
+  },
+  "homepage": "https://github.com/monster1935/node-koa-app#readme",
+  "dependencies": {
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "koa": "^2.3.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.26.0"
+  }
+}
