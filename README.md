@@ -8,7 +8,7 @@
 - Koa2
 - mongodb
 
-## 前端demo
+## 前端控制台页面
 
 ![](./client/static/demo.png)
 
@@ -19,3 +19,30 @@
 - [x] 前端可以通过restful api的方式调用后端的服务
 - [x] 连接mongodb实现基础的增删改查
 - [ ] 详细阅读mongoose文档，搞清楚查询、更新、创建、删除等api的使用
+
+## 如何使用
+
+一、启动mongodb的服务
+
+确保本机安装了mongoodb，在安装好的前提下，启动mongodb，如我的是这样启动的：
+
+```
+./bin/mongod --dbpath data/db
+```
+
+二、启动server端的服务
+
+server文件夹下对应了服务端的代码，在根目录输入：
+
+```
+npm start
+```
+即可启动。代码中使用了nodemon监听代码的改动并实时更新
+
+三、启动前端的dev-server
+
+client文件夹下对应了客户端的代码，前后端分离模式下，前端开启自己的dev-server
+
+```
+npm run dev
+```
