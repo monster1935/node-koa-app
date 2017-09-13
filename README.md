@@ -7,6 +7,9 @@
 - vue全家桶+webpack
 - Koa2
 - mongodb
+- axios用于前后端的请求
+- nodemon用于监听后端代码的改变
+- mongoose用于连接mongoodb以及后续服务
 
 ## 前端控制台页面
 
