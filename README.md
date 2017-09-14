@@ -10,10 +10,15 @@
 - axios用于前后端的请求
 - nodemon用于监听后端代码的改变
 - mongoose用于连接mongoodb以及后续服务
+- marked.js用于解析markdown格式的文本
 
 ## 前端控制台页面
 
 ![](./client/static/demo.png)
+
+## 前端Blog页面
+
+![](./client/static/blog_index.png)
 
 ## 目标分步
 
@@ -23,7 +28,7 @@
 - [x] 连接mongodb实现基础的增删改查
 - [ ] 详细阅读mongoose文档，搞清楚查询、更新、创建、删除等api的使用
 - [ ] 文章的管理
-- [ ] blog页面与admin页面
+- [x] blog页面与admin页面
 - [ ] admin添加用户登录验证
 - [ ] blog首页添加vue服务端渲染
 - [ ] 调研如何线上部署的相关知识
