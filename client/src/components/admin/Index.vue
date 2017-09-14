@@ -1,14 +1,26 @@
 <template>
-  <div id="app">
-    <router-view></router-view>
-  </div>
+    <div class="app-admin">
+        <app-header></app-header>
+        <div class="app-content">
+            <app-nav></app-nav>
+            <div class="app-right">
+                <router-view></router-view>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
+import AppHeader from './common/AppHeader';
+import AppNav from './common/AppNav';
 export default {
-    name: 'app',
+    name: 'app-admin',
     mounted () {
-        console.log('start');
+        console.log('app admin start');
+    },
+    components: {
+        AppHeader,
+        AppNav
     }
 }
 </script>
@@ -24,6 +36,9 @@ html,body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;
+    height: 100%;
+}
+.app-admin {
     height: 100%;
     display: flex;
     flex-flow: column;

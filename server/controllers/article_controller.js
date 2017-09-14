@@ -29,9 +29,25 @@ export async function addArticle(ctx) {
 }
 // 获取所有文章
 export async function getAllArticles(ctx) {
-    let getRes = await Article.find().catch(err => {
-        ctx.throw(500,'服务器内部错误');
-    });
+    const id = ctx.request.body.id;
+    const categories = ctx.request.body.categories;
+    let params = {};
+    if (id) {
+        params._id = id;
+    }
+    if (categories) {
+        params.categories = categories;
+    }
+    let getRes;
+    if (!id && !categories) {
+        getRes = await Article.find().catch(err => {
+            ctx.throw(500,'服务器内部错误');
+        });
+    } else {
+        getRes = await Article.find(params).catch(err => {
+            ctx.throw(500,'服务器内部错误');
+        });
+    }
     ctx.body = {
         resCode: 100,
         resDesc: '成功',
