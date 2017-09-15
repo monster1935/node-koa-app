@@ -128,5 +128,8 @@
             margin: 0;
             padding: 0 20px;
         }
+        img {
+            max-width: 100%;
+        }
     }
 </style>

@@ -24,7 +24,13 @@
             <div class="table-wrap">
                 <el-table
                     :data="tableData"
+                    border
                     stripe>
+                    <el-table-column
+                        resizable
+                        type="index"
+                        width="60">
+                    </el-table-column>
                     <template v-for="column in tableColumn">
                         <el-table-column
                             :prop="column.prop"

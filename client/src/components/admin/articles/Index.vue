@@ -4,20 +4,20 @@
         <h2>文章管理</h2>
         <div class="article-info border">
             <el-form :model="articleModel" ref="articleForm" :rules="rules" label-width="80">
-                <el-form-item label="文章标题" class="small">
+                <el-form-item label="文章标题" class="small" prop="title">
                     <el-input
                         v-model="articleModel.title"
                         placeholder="请输入文章标题">
                     </el-input>
                 </el-form-item>
-                <el-form-item label="文章标签" class="small">
+                <el-form-item label="文章标签" class="small" prop="tags">
                     <el-input
                         v-model="tags"
                         placeholder="请输入文章标签，Enter添加"
                         @keyup.enter.native="onAddTags">
                     </el-input>
                 </el-form-item>
-                <el-form-item v-show="articleModel.tags.length>0">
+                <el-form-item v-show="articleModel.tags.length > 0">
                     <el-tag
                         v-for="(tag,index) in articleModel.tags"
                         :key="tag"
@@ -27,7 +27,7 @@
                         {{tag}}
                     </el-tag>
                 </el-form-item>
-                <el-form-item label="文章分类" class="small">
+                <el-form-item label="文章分类" class="small" prop="categories">
                     <el-input v-model="articleModel.categories" placeholder="请输入文章分类"></el-input>
                 </el-form-item>
             </el-form>
@@ -35,7 +35,7 @@
         <h2>文章编辑</h2>
         <div class="btn-article">
             <el-button type="primary" @click="onBtnSubmit">创建并发布</el-button>
-            <el-button>重置</el-button>
+            <el-button @click="onBtnReset">重置</el-button>
         </div>
         <markdown-editor
             v-model="content"
@@ -48,6 +48,7 @@
             <el-table
                 :data="tableData"
                 stripe>
+                <el-table-column type="index" width="60"></el-table-column>
                 <template v-for="column in tableColumn">
                     <el-table-column
                         :prop="column.prop"
@@ -101,6 +102,7 @@
             this.getAllArticles();
         },
         methods: {
+            // 获取所有文章
             getAllArticles () {
                 this.$http.post('/v2/articles').then(res => {
                     if (res.data.resCode == 100) {
@@ -110,15 +112,18 @@
                     }
                 });
             },
+            // 标签页添加
             onAddTags () {
                 if (this.tags) {
                     this.articleModel.tags.push(this.tags);
                     this.tags = '';
                 }
             },
+            // 标签页删除
             handleClose (index) {
                 this.articleModel.tags.splice(index,1);
             },
+            // 提交
             onBtnSubmit () {
                 this.$http.post('/v2/addArticle',{
                     title: this.articleModel.title,
@@ -135,6 +140,7 @@
                     }
                 })
             },
+            // 删除
             onArticleDel (article) {
                 this.$confirm('是否删除该文章？','提示',{
                     confirmButtonText: '确定',
@@ -154,8 +160,19 @@
                     });
                 }).catch(()=>{});
             },
+            // 编辑
             onArticleEdit () {
 
+            },
+            // 重置
+            onBtnReset () {
+                // 1. 文章信息form reset
+                this.$refs['articleForm'].resetFields();
+                // 2. 文章标签清空
+                this.tags = '';
+                this.articleModel.tags = [];
+                // 3. markdown edit重置
+                this.content = '';
             }
         },
         computed: {},

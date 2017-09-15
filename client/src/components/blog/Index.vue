@@ -10,12 +10,15 @@
         </div>
         <div class="blog-content">
             <div class="main">
-                <router-view :articles="articles"></router-view>
+                <router-view></router-view>
             </div>
             <div class="footer">
                 <p>© 2017 -  monster1935的博客  - 京ICP备15048708号-1</p>
                 <p>Powered by Vue & Koa2</p>
             </div>
+        </div>
+        <div class="btn-backtop" v-if="btnVis" @click="onBtnTopClick">
+            <i class="iconfont icon-top"></i>
         </div>
     </div>
 </template>
@@ -24,25 +27,28 @@
     export default {
         data () {
             return {
-                articles: []
+                btnVis: false,
+                _content: {}
             };
         },
         components: {},
         mounted() {
-            this.getAllArticles();
+            // 判断是否显示置顶按钮
+            let _content = document.querySelector('.blog-content');
+            this._content = _content;
+            var that = this;
+            _content.addEventListener('scroll', function (){
+                if (_content.scrollTop > 0) {
+                    that.btnVis = true;
+                } else {
+                    that.btnVis = false;
+                }
+            });
         },
         methods: {
-            // get all articles
-            getAllArticles (){
-                this.$http.post('/v2/articles').then(res => {
-                    if (res.data.resCode == 100) {
-                        this.articles = res.data.dataList.reverse().filter(el => {
-                            return el.categories != 'about';
-                        });
-                    } else {
-                        console.error(res.data.resDesc);
-                    }
-                })
+            // 置顶
+            onBtnTopClick () {
+                this._content.scrollTop = 0;
             }
         },
         computed: {},
@@ -119,6 +125,21 @@
                 font-size: 14px;
 
             }
+        }
+        .btn-backtop {
+            position: fixed;
+            bottom: 20px;
+            right: 40px;
+            height: 40px;
+            width: 40px;
+            border: 1px solid #ccc;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            transition: display 2s;
         }
     }
 </style>
