@@ -2,6 +2,7 @@
     <div class="post-list">
         <post-block
             v-for="article in articles"
+            :key="article._id"
             :id="article._id"
             :title="article.title"
             :time="article.createTime"

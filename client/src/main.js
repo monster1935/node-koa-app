@@ -13,7 +13,15 @@ Vue.prototype.$http = axios;
 Vue.prototype.$moment = moment;
 
 Vue.config.productionTip = false
-Vue.use(ElementUI)
+Vue.use(ElementUI);
+
+router.beforeEach((to, from ,next) => {
+    if (to.meta.requireAuth) {
+        next('/admin/login');
+    } else {
+        next();
+    }
+});
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
