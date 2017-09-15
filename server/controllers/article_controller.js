@@ -71,9 +71,14 @@ export async function getArticleInfo (ctx) {
     if (categories) {
         params.categories = categories;
     }
+    // 阅读次数+1
+    if (id) {
+        await Article.update({_id: id}, {$inc: {viewCounts: 1}});
+    }
     res = await Article.findOne(params).catch(err => {
         ctx.throw(500, 'internal error');
-    })
+    });
+
     ctx.body = {
         resCode: 100,
         resDesc: '成功',

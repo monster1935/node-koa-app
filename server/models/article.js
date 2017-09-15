@@ -12,6 +12,10 @@ const articleSchema = new Schema({
     categories: {
         type: String
     },
+    viewCounts: {
+        type: Number,
+        default: 0
+    },
     publish: {
         type: Boolean,
         default: false,
@@ -29,10 +33,10 @@ const articleSchema = new Schema({
 articleSchema.set('toJSON', { getters: true, virtuals: true });
 articleSchema.set('toObject', { getters: true, virtuals: true });
 articleSchema.path('createTime').get(function(v) {
-  return moment(v).format('lll');
+  return moment(v).format('LL');
 });
 articleSchema.path('lastEditTime').get(function(v) {
-  return moment(v).format('lll');
+  return moment(v).format('LL');
 });
 
 const articleModel = mongoose.model('article', articleSchema);

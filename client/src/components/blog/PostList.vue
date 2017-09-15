@@ -6,6 +6,7 @@
             :title="article.title"
             :time="article.createTime"
             :tags="article.tags"
+            :viewCounts="article.viewCounts"
             :categories="article.categories"
             :content="article.content">
         </post-block>
@@ -24,7 +25,8 @@
                 articles: [],
                 isLoading: false,
                 curPage: 0,
-                pageSize: 6
+                pageSize: 6,
+                isLastPage: false
             };
         },
         components: {
@@ -41,8 +43,11 @@
             _content.addEventListener('scroll', function () {
                 if ((_content.scrollTop + _content.clientHeight) >= (_main.offsetHeight + _footer.offsetHeight + 60)) {
                     // 触发加载数据
-                    that.isLoading = true;
-                    that.getAllArticles();
+                    if (!that.isLastPage) {
+                        that.isLoading = true;
+                        that.getAllArticles();
+                    }
+
                 }
             });
         },
@@ -55,11 +60,17 @@
                 }).then(res => {
                     this.isLoading = false;
                     if (res.data.resCode == 100) {
-                        this.articles = this.articles.concat(res.data.dataList.filter(el => {
-                            return el.categories != 'about';
-                        }));
-                        this.curPage = res.data.data.curPage;
-                        this.pageSize = res.data.data.pageSize;
+                        if (res.data.dataList && res.data.dataList.length) {
+                            this.articles = this.articles.concat(res.data.dataList.filter(el => {
+                                return el.categories != 'about';
+                            }));
+                            this.curPage = res.data.data.curPage;
+                            this.pageSize = res.data.data.pageSize;
+                        } else {
+                            // 已经到了最后一页
+                            this.isLastPage = true;
+                        }
+
                     } else {
                         console.error(res.data.resDesc);
                     }

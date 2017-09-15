@@ -81,6 +81,7 @@ export async function delUser (ctx) {
 // 更新用户
 export async function editUser (ctx) {
     const id = ctx.request.body._id;
+
     if (id) {
         const user = await User.findByIdAndUpdate(id, { $set: ctx.request.body}).catch(err => {
             if (err.name === 'CastError') {

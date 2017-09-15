@@ -5,10 +5,19 @@
                 {{article.title}}
             </div>
             <div class="post-info">
-                <span class="time">{{article.createTime}}</span>
+                <span class="time">
+                    <i class="iconfont icon-time"></i>{{article.createTime}}
+                </span>
                 <template v-if="$route.path != '/about'">
-                    <span class="tags">标签：{{tags}}</span>
-                    <span class="categories">分类： {{article.categories}}</span>
+                    <span class="tags">
+                        <i class="iconfont icon-tag"></i>{{tags}}
+                    </span>
+                    <span class="categories">
+                        <i class="iconfont icon-file"></i>{{article.categories}}
+                    </span>
+                    <span class="view">
+                        <i class="iconfont icon-view"></i>{{article.viewCounts}}
+                    </span>
                 </template>
             </div>
         </div>
@@ -56,7 +65,7 @@
                 return '';
             },
             tags () {
-                if (this.article.tag && this.article.tags.length) {
+                if (this.article.tags && this.article.tags.length) {
                     return this.article.tags.join(' | ');
                 }
                 return '';
@@ -66,7 +75,7 @@
             '$route': function () {
                 if (this.$route.path == '/about') {
                     this.getArticles({categories: 'about'});
-                }    
+                }
             }
         }
     };
@@ -86,6 +95,9 @@
             .post-info {
                 font-size: 14px;
                 color: #999;
+                .time,.tags,.categories,.view {
+                    margin-right: 10px;
+                }
             }
         }
         .post-wrap {
@@ -100,5 +112,9 @@
         img {
             width: 100%;
         }
+    }
+    .iconfont {
+        font-size: 14px;
+        margin-right: 4px;
     }
 </style>

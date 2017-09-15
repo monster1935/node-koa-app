@@ -4,9 +4,18 @@
             <router-link :to="'post/' + id">{{title}}</router-link>
         </div>
         <div class="title-info">
-            <span class="create-time">{{time}}</span>
-            <span class="tags">标签：{{tags.join(' | ')}}</span>
-            <span class="categories">分类：{{categories}}</span>
+            <span class="time">
+                <i class="iconfont icon-time"></i>{{time}}
+            </span>
+            <span class="tags">
+                <i class="iconfont icon-tag"></i>{{tags.join(' | ')}}
+            </span>
+            <span class="categories">
+                <i class="iconfont icon-file"></i>{{categories}}
+            </span>
+            <span class="view">
+                <i class="iconfont icon-view"></i>{{viewCounts}}
+            </span>
         </div>
         <div class="title-abstract" v-html="compileContent">
         </div>
@@ -41,6 +50,10 @@
             categories: {
                 type: String,
                 default: ''
+            },
+            viewCounts: {
+                type: Number,
+                default: 0
             },
             content: {
                 type: String,
@@ -90,6 +103,9 @@
             font-size: 14px;
             color: #999;
             margin-bottom: 10px;
+            .time,.tags,.categories,.view {
+                margin-right: 10px;
+            }
         }
         div.title-abstract {
             margin-bottom: 10px;
@@ -131,5 +147,9 @@
         img {
             max-width: 100%;
         }
+    }
+    .iconfont {
+        font-size: 14px;
+        margin-right: 4px;
     }
 </style>
