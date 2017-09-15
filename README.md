@@ -14,11 +14,11 @@
 
 ## 前端控制台页面
 
-![](./client/static/demo.png)
+![](./client/static/blog_admin.png)
 
 ## 前端Blog页面
 
-![](./client/static/blog_index.png)
+![](./client/static/blog.png)
 
 ## 目标分步
 
@@ -26,9 +26,14 @@
 - [x] 构建前端工程，添加到项目中
 - [x] 前端可以通过restful api的方式调用后端的服务
 - [x] 连接mongodb实现基础的增删改查
-- [ ] 详细阅读mongoose文档，搞清楚查询、更新、创建、删除等api的使用
-- [ ] 文章的管理
+- [x] 详细阅读mongoose文档，搞清楚查询、更新、创建、删除等api的使用
 - [x] blog页面与admin页面
+- [x] 文章添加阅读次数统计
+- [x] blog首页添加滚动加载
+- [x] blog首页文章接口添加分页
+- [x] 前端采用html5 history模式的路由
+- [ ] 文章添加评论
+- [ ] 文章的管理,初期想法想做一个和有道云笔记类似的文章管理界面
 - [ ] admin添加用户登录验证
 - [ ] blog首页添加vue服务端渲染
 - [ ] 调研如何线上部署的相关知识
