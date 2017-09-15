@@ -22,7 +22,9 @@
         data () {
             return {
                 articles: [],
-                isLoading: false
+                isLoading: false,
+                curPage: 0,
+                pageSize: 6
             };
         },
         components: {
@@ -47,12 +49,17 @@
         methods: {
             // get all articles
             getAllArticles (){
-                this.$http.post('/v2/articles').then(res => {
+                this.$http.post('/v2/articles',{
+                    curPage: this.curPage + 1,
+                    pageSize: this.pageSize,
+                }).then(res => {
                     this.isLoading = false;
                     if (res.data.resCode == 100) {
-                        this.articles = this.articles.concat(res.data.dataList.reverse().filter(el => {
+                        this.articles = this.articles.concat(res.data.dataList.filter(el => {
                             return el.categories != 'about';
                         }));
+                        this.curPage = res.data.data.curPage;
+                        this.pageSize = res.data.data.pageSize;
                     } else {
                         console.error(res.data.resDesc);
                     }

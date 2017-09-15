@@ -39,9 +39,9 @@
         },
         methods: {
             getArticles (params) {
-                this.$http.post('/v2/articles', params).then(res => {
+                this.$http.post('/v2/articleInfo', params).then(res => {
                     if (res.data.resCode == 100) {
-                        this.article = res.data.dataList[0];
+                        this.article = res.data.data;
                     } else {
                         this.article = [];
                     }
@@ -62,7 +62,13 @@
                 return '';
             }
         },
-        watch: {}
+        watch: {
+            '$route': function () {
+                if (this.$route.path == '/about') {
+                    this.getArticles({categories: 'about'});
+                }    
+            }
+        }
     };
 </script>
 

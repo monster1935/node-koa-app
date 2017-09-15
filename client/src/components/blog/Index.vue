@@ -140,6 +140,9 @@
             font-size: 24px;
             cursor: pointer;
             transition: display 2s;
+            &:hover {
+                background: #ddd;
+            }
         }
     }
 </style>

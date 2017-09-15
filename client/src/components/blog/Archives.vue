@@ -34,9 +34,9 @@
         methods: {
             // get all articles
             getAllArticles (){
-                this.$http.post('/v2/articles').then(res => {
+                this.$http.post('/v2/articleList').then(res => {
                     if (res.data.resCode == 100) {
-                        this.articles = res.data.dataList.reverse().filter(el => {
+                        this.articles = res.data.dataList.filter(el => {
                             return el.categories != 'about';
                         });
                     } else {

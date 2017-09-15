@@ -15,9 +15,7 @@ import AppHeader from './common/AppHeader';
 import AppNav from './common/AppNav';
 export default {
     name: 'app-admin',
-    mounted () {
-        console.log('app admin start');
-    },
+    mounted () {},
     components: {
         AppHeader,
         AppNav

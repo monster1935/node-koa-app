@@ -27,34 +27,60 @@ export async function addArticle(ctx) {
         data: createResult
     };
 }
-// 获取所有文章
+// 获取首页文章列表
+export async function getIndexList (ctx) {
+    const curPage = ctx.request.body.curPage;
+    const pageSize = ctx.request.body.pageSize;
+    let res;
+    res = await Article.find().sort({"createTime":-1}).skip(pageSize*(curPage-1)).limit(pageSize).catch(err => {
+        ctx.throw(500, 'internal error');
+    });
+
+    ctx.body = {
+        resCode: 100,
+        resDesc: '成功',
+        dataList: res,
+        data: {
+            curPage,
+            pageSize
+        }
+    };
+}
+// 获取所有文章,用于归档页的显示
 export async function getAllArticles(ctx) {
+    let res;
+    res = await Article.find().sort({"createTime":-1}).select('title createTime').catch(err => {
+        ctx.throw(500, 'internal error');
+    });
+
+    ctx.body = {
+        resCode: 100,
+        resDesc: '成功',
+        dataList: res,
+        data: {}
+    };
+};
+// 获取单篇文章信息
+export async function getArticleInfo (ctx) {
+    let res, params = {};
     const id = ctx.request.body.id;
     const categories = ctx.request.body.categories;
-    let params = {};
     if (id) {
         params._id = id;
     }
     if (categories) {
         params.categories = categories;
     }
-    let getRes;
-    if (!id && !categories) {
-        getRes = await Article.find().catch(err => {
-            ctx.throw(500,'服务器内部错误');
-        });
-    } else {
-        getRes = await Article.find(params).catch(err => {
-            ctx.throw(500,'服务器内部错误');
-        });
-    }
+    res = await Article.findOne(params).catch(err => {
+        ctx.throw(500, 'internal error');
+    })
     ctx.body = {
         resCode: 100,
         resDesc: '成功',
-        dataList: getRes,
-        data: {}
+        dataList: [],
+        data: res
     };
-}
+};
 // 删除文章
 export async function delArticle (ctx) {
     const id = ctx.request.body.id;

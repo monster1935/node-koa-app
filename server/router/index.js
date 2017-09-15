@@ -10,7 +10,9 @@ v1.post('/editUser', $.editUser);
 
 let v2 = new Router();
 v2.post('/addArticle', article.addArticle);
-v2.post('/articles', article.getAllArticles);
+v2.post('/articles', article.getIndexList);
+v2.post('/articleList', article.getAllArticles);
+v2.post('/articleInfo', article.getArticleInfo);
 v2.post('/delArticle', article.delArticle);
 // 装载所有子路由
 let router = new Router()

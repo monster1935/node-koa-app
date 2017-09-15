@@ -7,6 +7,9 @@ import onerror from 'koa-onerror';
 import mongoose from 'mongoose';
 mongoose.connect(config.mongodb.url,config.mongdbSecret);
 mongoose.connection.on('error', console.error);
+mongoose.connection.once('open', function (){
+	console.log('mongodb connected successfully.')
+});
 
 const app = new Koa();
 
