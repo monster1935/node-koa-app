@@ -44,6 +44,9 @@ export default new Router({
             path: '/admin/login',
             name: 'Login',
             component: Login,
+            meta: {
+                requireAuth: true
+            }
         },
         {
             path: '/admin',
@@ -53,49 +56,31 @@ export default new Router({
                     path: '/',
                     name: 'Index',
                     component: Hello,
-                    meta: {
-                        requireAuth: true
-                    },
                 },
                 {
                     path: 'users',
                     name: 'Users',
                     component: Users,
-                    meta: {
-                        requireAuth: true
-                    },
                 },
                 {
                     path: 'tags',
                     name: 'Hello',
-                    component: Hello,
-                    meta: {
-                        requireAuth: true
-                    },
+                    component: Hello
                 },
                 {
                     path: 'categories',
                     name: 'Hello',
                     component: Hello,
-                    meta: {
-                        requireAuth: true
-                    },
                 },
                 {
                     path: 'articles',
                     name: 'Articles',
                     component: Articles,
-                    meta: {
-                        requireAuth: true
-                    },
                 },
                 {
                     path: 'statis',
                     name: 'Hello',
                     component: Hello,
-                    meta: {
-                        requireAuth: true
-                    },
                 },
             ]
         }

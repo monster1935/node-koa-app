@@ -1,12 +1,13 @@
 import Router from 'koa-router';
 import * as $ from '../controllers/users_controller';
 import * as article from '../controllers/article_controller';
-
+import verify from '../middleware/verify.js';
 let v1 = new Router();
-v1.post('/users', $.getUserList);
+v1.post('/users', verify, $.getUserList);
 v1.post('/addUser', $.addUser);
 v1.post('/delUser', $.delUser);
 v1.post('/editUser', $.editUser);
+v1.post('/login', $.login);
 
 let v2 = new Router();
 v2.post('/addArticle', article.addArticle);

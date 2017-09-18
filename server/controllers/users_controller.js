@@ -1,5 +1,5 @@
 import User from '../models/user';
-
+import jwt from 'jsonwebtoken';
 // 添加用户
 export async function addUser (ctx) {
     const name = ctx.request.body.name;
@@ -97,4 +97,23 @@ export async function editUser (ctx) {
             data: {}
         };
     }
-}
+};
+
+// 用户登录
+export async function login (ctx) {
+    const username = ctx.request.body.username;
+    const password = ctx.request.body.psd;
+
+    // 直接返回成功
+    const token = jwt.sign({
+        name: 'test',
+        exp: Math.floor(Date.now() /1000) + 1 * 5 * 60 // 5min
+    }, 'monster');
+
+    ctx.body = {
+        resCode: 100,
+        resDesc: '成功',
+        dataList: [],
+        data: token
+    };
+};
