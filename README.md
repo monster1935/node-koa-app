@@ -11,6 +11,7 @@
 - nodemon用于监听后端代码的改变
 - mongoose用于连接mongoodb以及后续服务
 - marked.js用于解析markdown格式的文本
+- jsonwebtoken用于前后端鉴权
 
 ## 前端控制台页面
 
