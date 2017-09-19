@@ -20,10 +20,10 @@ html,body {
     height: 100%;
 }
 #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    color: #333;
+    font-family: "Roboto","Segoe UI","Microsoft Yahei","WenQuanYi Micro Hei","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue","Source Han Sans CN",sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    color: #2c3e50;
     height: 100%;
     display: flex;
     flex-flow: column;

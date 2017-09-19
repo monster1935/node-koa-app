@@ -21,9 +21,7 @@
                 </template>
             </div>
         </div>
-        <div class="post-wrap" v-html="content">
-
-        </div>
+        <div class="post-wrap" v-html="content" v-highlight></div>
     </div>
 </template>
 
@@ -38,7 +36,7 @@
         },
         inheritAttrs: false,
         components: {},
-        mounted() {
+        beforeMount() {
             if (this.$route.path == '/about') {
                 this.getArticles({categories: 'about'});
             } else {
@@ -51,6 +49,7 @@
                 this.$http.post('/v2/articleInfo', params).then(res => {
                     if (res.data.resCode == 100) {
                         this.article = res.data.data;
+                        this.$store.commit('SET_CONTENT', this.article.content);
                     } else {
                         this.article = [];
                     }
@@ -58,6 +57,9 @@
             }
         },
         computed: {
+            compileContent () {
+                return this.$store.state.article.compileContent;
+            },
             content () {
                 if (this.article.content) {
                     return marked(this.article.content);
@@ -108,9 +110,12 @@
 </style>
 
 <style lang="scss">
+    pre code {
+        font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+    }
     .post-wrap {
         img {
-            width: 100%;
+            max-width: 100%;
         }
     }
     .iconfont {

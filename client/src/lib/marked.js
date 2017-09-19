@@ -1,4 +1,5 @@
 import highlight from 'highlight.js'
+import '~/highlight.js/styles/atom-one-dark.css';
 import marked from 'marked';
 const languages = ["cpp", "xml", "bash", "coffeescript", "css", "markdown", "http", "java", "javascript", "json", "less", "makefile", "nginx", "php", "python", "scss", "sql", "stylus"];
 highlight.registerLanguage('cpp', require('highlight.js/lib/languages/cpp'));
@@ -20,7 +21,7 @@ highlight.registerLanguage('scss', require('highlight.js/lib/languages/scss'));
 highlight.registerLanguage('sql', require('highlight.js/lib/languages/sql'));
 highlight.registerLanguage('stylus', require('highlight.js/lib/languages/stylus'));
 highlight.configure({
-    classPrefix: '' // don't append class prefix
+    classPrefix: 'hljs-' // don't append class prefix
 })
 // https://github.com/chjj/marked
 marked.setOptions({

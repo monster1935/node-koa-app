@@ -17,7 +17,7 @@
                 <i class="iconfont icon-view"></i>{{viewCounts}}
             </span>
         </div>
-        <div class="title-abstract" v-html="compileContent">
+        <div class="title-abstract" v-html="compileContent" v-highlight>
         </div>
         <div class="btn-title">
             <router-link :to="'post/' + id">阅读全文</router-link>

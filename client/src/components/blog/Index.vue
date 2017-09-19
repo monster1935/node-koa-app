@@ -58,7 +58,7 @@
 
 <style lang="scss" scoped>
     .app-blog {
-        font-family: Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Noto Sans CJK SC,WenQuanYi Micro Hei,Arial,sans-serif;
+        font-family: "Roboto","Segoe UI","Microsoft Yahei","WenQuanYi Micro Hei","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue","Source Han Sans CN",sans-serif;
         height: 100%;
         display: flex;
         flex-flow: column;

@@ -10,6 +10,14 @@ import 'element-ui/lib/theme-default/index.css';
 import store from '@/store/index.js';
 Vue.use(ElementUI);
 
+import hljs from 'highlight.js';
+Vue.directive('highlight',function (el) {
+    let blocks = el.querySelectorAll('pre code');
+    blocks.forEach((block)=>{
+        hljs.highlightBlock(block)
+    });
+});
+
 // 设置axios的拦截返回，
 axios.interceptors.response.use(response => {
     if (response.data.resCode == 401) {
