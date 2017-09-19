@@ -63,6 +63,11 @@ export default new Router({
                     component: Users,
                 },
                 {
+                    path: 'articles',
+                    name: 'Articles',
+                    component: Articles,
+                },
+                /*{
                     path: 'tags',
                     name: 'Hello',
                     component: Hello
@@ -73,15 +78,10 @@ export default new Router({
                     component: Hello,
                 },
                 {
-                    path: 'articles',
-                    name: 'Articles',
-                    component: Articles,
-                },
-                {
                     path: 'statis',
                     name: 'Hello',
                     component: Hello,
-                },
+                },*/
             ]
         }
     ]

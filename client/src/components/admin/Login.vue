@@ -53,7 +53,9 @@
                                     type: 'success',
                                     message: '登录成功！',
                                 });
-                                this.$router.push('/admin');
+                                setTimeout(()=> {
+                                    this.$router.push('/admin');
+                                }, 1000);
                             } else {
                                 this.$message({
                                     type: 'error',

@@ -1,11 +1,8 @@
 <template>
     <div class="app-admin">
-        <app-header></app-header>
-        <div class="app-content">
-            <app-nav></app-nav>
-            <div class="app-right">
-                <router-view></router-view>
-            </div>
+        <app-nav></app-nav>
+        <div class="app-right">
+            <router-view></router-view>
         </div>
     </div>
 </template>
@@ -39,24 +36,14 @@ html,body {
 .app-admin {
     height: 100%;
     display: flex;
-    flex-flow: column;
-}
-.app-header {
-    flex: 0 0 60px;
-    height: 60px;
-    line-height: 60px;
-}
-.app-content {
-    flex: 1;
-    display: flex;
+    flex-flow: row;
 }
 .app-nav {
     flex: 0 0 300px;
-    background: #eef1f6;
+    background: #202020;
 }
 .app-right {
     flex: 1;
-    padding: 10px 20px;
-    overflow: auto;
+    padding: 0 20px;
 }
 </style>

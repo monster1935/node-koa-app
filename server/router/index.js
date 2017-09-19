@@ -15,6 +15,7 @@ v2.post('/articles', article.getIndexList);
 v2.post('/articleList', article.getAllArticles);
 v2.post('/articleInfo', article.getArticleInfo);
 v2.post('/delArticle', article.delArticle);
+v2.post('/updateArticle', article.updateArticle);
 // 装载所有子路由
 let router = new Router()
 router.use('/v1', v1.routes(), v1.allowedMethods());

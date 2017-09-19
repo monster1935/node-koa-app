@@ -32,20 +32,25 @@ Vue.config.productionTip = false
 
 router.beforeEach((to, from ,next) => {
     // 登录页判断是否已经登录，如果已经登录跳转
-    if (to.meta.requireAuth) {
-        if (store.state.token.token) {
-            next('/admin');
-        }
-        next();
-    } else {
-        // 非登录页判断是否存在token，决定是否跳转到登录页
-        if (store.state.token.token) {
-            axios.defaults.headers.common['Authorization'] = 'Bear ' + store.state.token.token;
+    if (to.matched[0].path == '/admin') {
+        if (to.meta.requireAuth) {
+            if (store.state.token.token) {
+                next('/admin');
+            }
             next();
         } else {
-            next('/admin/login');
+            // 非登录页判断是否存在token，决定是否跳转到登录页
+            if (store.state.token.token) {
+                axios.defaults.headers.common['Authorization'] = 'Bear ' + store.state.token.token;
+                next();
+            } else {
+                next('/admin/login');
+            }
         }
+    } else {
+        next();
     }
+
 });
 /* eslint-disable no-new */
 new Vue({

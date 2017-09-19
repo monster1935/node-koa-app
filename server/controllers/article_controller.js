@@ -105,3 +105,31 @@ export async function delArticle (ctx) {
         };
     }
 };
+
+// 更新文章
+export async function updateArticle (ctx) {
+    const id = ctx.request.body._id;
+    const article = await Article.findByIdAndUpdate(id, {$set: ctx.request.body}).catch(err => {
+        if (err.name == 400) {
+            ctx.body = {
+                resCode: 400,
+                resDesc: 'id不存在',
+                dataList: [],
+                data: {}
+            };
+        } else {
+            ctx.body = {
+                resCode: 500,
+                resDesc: '服务器内部错误',
+                dataList: res,
+                data: {}
+            };
+        }
+    });
+    ctx.body = {
+        resCode: 100,
+        resDesc: '成功',
+        dataList: [],
+        data: {}
+    };
+}

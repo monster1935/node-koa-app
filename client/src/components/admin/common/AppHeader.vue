@@ -1,7 +1,7 @@
 <template>
     <div class="app-header">
         <div class="logo">
-            <span>Koa2接口练习平台</span>
+            <span>{{title}}</span>
         </div>
     </div>
 </template>
@@ -10,7 +10,8 @@
     export default {
         data () {
             return {
-                activeIndex: '1'
+                activeIndex: '1',
+                title: 'Blog后台管理系统'
             };
         },
         components: {},

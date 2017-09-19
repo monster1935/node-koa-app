@@ -43,7 +43,6 @@ html,body {
 }
 .app-right {
     flex: 1;
-    padding: 10px 20px;
     overflow: auto;
 }
 </style>

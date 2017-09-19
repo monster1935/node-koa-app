@@ -1,68 +1,68 @@
 <!-- 文章管理页 -->
 <template>
     <div class="article-wrap">
-        <h2>文章管理</h2>
-        <div class="article-info border">
-            <el-form :model="articleModel" ref="articleForm" :rules="rules" label-width="80">
-                <el-form-item label="文章标题" class="small" prop="title">
-                    <el-input
-                        v-model="articleModel.title"
-                        placeholder="请输入文章标题">
-                    </el-input>
-                </el-form-item>
-                <el-form-item label="文章标签" class="small" prop="tags">
-                    <el-input
-                        v-model="tags"
-                        placeholder="请输入文章标签，Enter添加"
-                        @keyup.enter.native="onAddTags">
-                    </el-input>
-                </el-form-item>
-                <el-form-item v-show="articleModel.tags.length > 0">
-                    <el-tag
-                        v-for="(tag,index) in articleModel.tags"
-                        :key="tag"
-                        :closable="true"
-                        @close="handleClose(index)"
-                        type="gray">
-                        {{tag}}
-                    </el-tag>
-                </el-form-item>
-                <el-form-item label="文章分类" class="small" prop="categories">
-                    <el-input v-model="articleModel.categories" placeholder="请输入文章分类"></el-input>
-                </el-form-item>
-            </el-form>
-        </div>
-        <h2>文章编辑</h2>
-        <div class="btn-article">
-            <el-button type="primary" @click="onBtnSubmit">创建并发布</el-button>
-            <el-button @click="onBtnReset">重置</el-button>
-        </div>
-        <markdown-editor
-            v-model="content"
-            ref="markdownEditor"
-            preview-class="markdown-body"
-            :highlight="true">
-        </markdown-editor>
-        <h2>文章列表</h2>
         <div class="article-list">
-            <el-table
-                :data="tableData"
-                stripe>
-                <el-table-column type="index" width="60"></el-table-column>
-                <template v-for="column in tableColumn">
-                    <el-table-column
-                        :prop="column.prop"
-                        :label="column.label">
-                    </el-table-column>
-                </template>
-                <el-table-column
-                    label="操作">
-                    <template scope="scope">
-                        <el-button type="text" @click="onArticleDel(scope.row)">删除</el-button>
-                        <el-button type="text" @click="onArticleEdit(scope.row)">编辑</el-button>
-                    </template>
-                </el-table-column>
-            </el-table>
+            <ul class="article-list-wrap">
+                <li v-for="(post, index) in tableData">
+                    <p>
+                        <span class="title">{{post.title}}</span>
+                        <span class="time">{{post.createTime}}</span>
+                    </p>
+                    <p>
+                        <span class="categories">
+                            <i class="iconfont icon-file"></i>
+                            {{post.categories}}
+                        </span>
+                        <span class="btn">
+                            <el-button type="text" @click="onArticleDel(index)">删除</el-button>
+                            <el-button type="text" @click="onArticleEdit(index)">编辑</el-button>
+                        </span>
+                    </p>
+                </li>
+                <li>共计{{tableData.length}}篇日志</li>
+            </ul>
+        </div>
+        <div class="article-edit-wrap">
+            <div class="article-info">
+                <el-form :model="articleModel" ref="articleForm">
+                    <el-form-item prop="title">
+                        <el-input
+                            v-model="articleModel.title"
+                            placeholder="请输入文章标题">
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item prop="tags">
+                        <el-input
+                            v-model="tags"
+                            placeholder="请输入文章标签，Enter添加"
+                            @keyup.enter.native="onAddTags">
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item v-show="articleModel.tags.length > 0">
+                        <el-tag
+                            v-for="(tag,index) in articleModel.tags"
+                            :key="tag"
+                            :closable="true"
+                            @close="handleClose(index)"
+                            type="gray">
+                            {{tag}}
+                        </el-tag>
+                    </el-form-item>
+                    <el-form-item  prop="categories">
+                        <el-input v-model="articleModel.categories" placeholder="请输入文章分类"></el-input>
+                    </el-form-item>
+                </el-form>
+            </div>
+            <markdown-editor
+                v-model="content"
+                ref="markdownEditor"
+                preview-class="markdown-body"
+                :highlight="true">
+            </markdown-editor>
+            <div class="btn-article">
+                <el-button type="primary" @click="onBtnSubmit">发布</el-button>
+                <el-button @click="onBtnReset">重置</el-button>
+            </div>
         </div>
     </div>
 </template>
@@ -75,13 +75,6 @@
         data () {
             return {
                 tableData: [],
-                tableColumn: [
-                    {prop: 'title', label: '题目'},
-                    {prop: 'tags', label: '标签'},
-                    {prop: 'categories', label: '分类'},
-                    {prop: 'createTime', label: '创建时间'},
-                    {prop: 'lastEditTime', label: '最后修改时间'}
-                ],
                 content: '',
                 tags: '',
                 articleModel: {
@@ -89,10 +82,8 @@
                     tags: [],
                     categories: ''
                 },
-                rules: {
-
-                }
-
+                articleInfo: {},
+                isEdit: false
             };
         },
         components: {
@@ -106,7 +97,7 @@
             getAllArticles () {
                 this.$http.post('/v2/articles').then(res => {
                     if (res.data.resCode == 100) {
-                        this.tableData = res.data.dataList.reverse();
+                        this.tableData = res.data.dataList;
                     } else {
                         this.$message.error(res.data.resDesc);
                     }
@@ -125,29 +116,53 @@
             },
             // 提交
             onBtnSubmit () {
-                this.$http.post('/v2/addArticle',{
-                    title: this.articleModel.title,
-                    tags: this.articleModel.tags,
-                    categories: this.articleModel.categories,
-                    content: this.content,
-                }).then(res => {
-                    if (res.data.resCode == 100) {
-                        this.$message({
-                            type: 'success',
-                            message: '添加成功'
-                        });
-                        this.getAllArticles();
-                    }
-                })
+                if (this.isEdit ) {
+                    this.$http.post('/v2/updateArticle', {
+                        _id: this.articleInfo._id,
+                        title: this.articleModel.title,
+                        tags: this.articleModel.tags,
+                        categories: this.articleModel.categories,
+                        content: this.content
+                    }).then(res => {
+                        if (res.data.resCode == 100) {
+                            this.$message({
+                                type: 'success',
+                                message: '更新成功'
+                            });
+                            this.getAllArticles();
+                        } else {
+                            this.$message({
+                                type: 'error',
+                                message: res.data.resDesc
+                            });
+                        }
+                    });
+                } else {
+                    this.$http.post('/v2/addArticle',{
+                        title: this.articleModel.title,
+                        tags: this.articleModel.tags,
+                        categories: this.articleModel.categories,
+                        content: this.content,
+                    }).then(res => {
+                        if (res.data.resCode == 100) {
+                            this.$message({
+                                type: 'success',
+                                message: '添加成功'
+                            });
+                            this.getAllArticles();
+                        }
+                    });
+                }
             },
             // 删除
-            onArticleDel (article) {
+            onArticleDel (index) {
+                let id = this.tableData[index]._id;
                 this.$confirm('是否删除该文章？','提示',{
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.$http.post('/v2/delArticle', {id: article._id}).then(res => {
+                    this.$http.post('/v2/delArticle', {id: id}).then(res => {
                         if (res.data.resCode == 100) {
                             this.$message({
                                 type: 'success',
@@ -161,8 +176,13 @@
                 }).catch(()=>{});
             },
             // 编辑
-            onArticleEdit () {
-
+            onArticleEdit (index) {
+                this.isEdit = true;
+                this.articleInfo = this.tableData[index];
+                this.articleModel.tags = this.articleInfo.tags;
+                this.articleModel.categories = this.articleInfo.categories;
+                this.articleModel.title = this.articleInfo.title;
+                this.content = this.articleInfo.content;
             },
             // 重置
             onBtnReset () {
@@ -173,6 +193,10 @@
                 this.articleModel.tags = [];
                 // 3. markdown edit重置
                 this.content = '';
+                // 4. 文章编辑信息清空
+                this.articleInfo = {};
+                // 5. 置文章状态为新建
+                this.isEdit = false;
             }
         },
         computed: {},
@@ -197,11 +221,100 @@
          margin-left: 4px;
      }
  }
+ .article-wrap .el-table tr {
+     height: 80px;
+     cursor: pointer;
+ }
+ .markdown-editor {
+     height: 60%;
+     overflow: hidden;
+     .editor-toolbar {
+         border-radius: 0;
+     }
+     .CodeMirror {
+         height: 80%;
+         border-raidus: 0;
+         border-color: #ddd;
+     }
+ }
+ .article-wrap .el-input input {
+     border-radius: 0;
+     border-color: #ddd;
+ }
+ .el-input__inner::placeholder {
+     color: #ccc;
+ }
 </style>
 <style lang="scss" scoped>
     .article-wrap {
-        .btn-article {
-            margin-bottom: 10px;
+        display: flex;
+        flex-flow: row;
+        height: 100%;
+        .article-list {
+            flex: 1;
+            height: 100%;
+            overflow-y: auto;
+            max-width: 400px;
+            border-right: 1px solid #ddd;
+            .article-list-wrap {
+                margin: 0;
+                padding: 0;
+                list-style: none;
+                li {
+                    height: 80px;
+                    &:last-child {
+                        height: 30px;
+                        font-size: 16px;
+                    }
+                    border-bottom: 1px solid #ddd;
+                    padding: 10px 20px;
+                    cursor: pointer;
+                    overflow: hidden;
+                    &:focus {
+                        background: #E0EAFA;
+                    }
+                    &:hover {
+                        background: #F6F7F9;
+                        .btn {
+                            display: block;
+                        }
+                    }
+                    font-size: 14px;
+                    .title {
+                        font-size: 16px;
+                        display: inline-block;
+                        max-width: 240px;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                    }
+                    .time {
+                        float: right;
+                        color: #999;
+                    }
+                    .categories{
+                        margin-right: 10px;
+                        color: #999;
+                    }
+                    .btn {
+                        float: right;
+                        display: none;
+                    }
+                }
+            }
         }
+        .article-edit-wrap {
+            flex: 1;
+            overflow: auto;
+            height: 100%;
+            box-sizing: border-box;
+            padding: 20px;
+            .btn-article {
+                position: absolute;
+                right: 40px;
+                margin: 20px 0;
+            }
+        }
+
     }
 </style>
