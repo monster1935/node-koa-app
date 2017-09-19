@@ -1,25 +1,17 @@
 <!-- 用户管理组件 -->
 <template>
     <div class="user-wrap">
-        <h2>用户查询</h2>
-        <div class="user-query border">
-            <el-form :model="queryModel" label-width="80px" ref="queryForm">
-                <el-form-item label="用户名" class="inline" prop="username">
-                    <el-input v-model="queryModel.username" placeholder="请输入"></el-input>
-                </el-form-item>
-                <el-form-item label="姓名" class="inline" prop="name">
-                    <el-input v-model="queryModel.name" placeholder="请输入"></el-input>
-                </el-form-item>
-            </el-form>
-            <div class="btn-query">
-                <el-button type="primary" @click="onUserQuery">查询</el-button>
-                <el-button @click="onQueryReset">重置</el-button>
-            </div>
-        </div>
         <h2>用户列表</h2>
         <div class="user-table border">
             <div class="btn-table">
                 <el-button icon="plus" @click="addUser">新增</el-button>
+                <el-input
+                    class="user-query"
+                    v-model="username"
+                    icon="search"
+                    @keyup.enter.native="onUserQuery"
+                    placeholder="请输入用户名查询">
+                </el-input>
             </div>
             <div class="table-wrap">
                 <el-table
@@ -66,10 +58,7 @@
     export default {
         data () {
             return {
-                queryModel: {
-                    username: '',
-                    name: '',
-                },
+                username: '',
                 userInfo: {},
                 isEdit: false,
                 userAddVis: false,
@@ -135,7 +124,7 @@
             },
             // 用户查询
             onUserQuery () {
-                this.getTableData(this.queryModel);
+                this.getTableData({username: this.username});
             },
             // 用户查询重置
             onQueryReset () {
@@ -158,15 +147,14 @@
             border-radius: 4px;
             padding: 20px;
         }
-        .user-query {
-            overflow: hidden;
-            .btn-query {
-                float: right;
-            }
-        }
         .user-table {
             .btn-table {
                 margin-bottom: 20px;
+                overflow: hidden;
+                .user-query {
+                    float: right;
+                    width: auto;
+                }
             }
         }
     }

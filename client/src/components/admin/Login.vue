@@ -22,12 +22,13 @@
 </template>
 
 <script>
+    import md5 from 'md5';
     export default {
         data () {
             return {
                 loginModel: {
                     username: 'admin',
-                    psd: '123445'
+                    psd: 'admin'
                 },
                 rules: {
                     username: [
@@ -47,7 +48,10 @@
                 this.$refs['loginForm'].validate((valid) => {
                     if (valid) {
                         // do next
-                        this.$store.dispatch('login', this.loginModel).then((res) => {
+                        this.$store.dispatch('login', {
+                            username: this.loginModel.username,
+                            password: md5(this.loginModel.psd)
+                        }).then((res) => {
                             if (res.data.resCode == 100) {
                                 this.$message({
                                     type: 'success',
@@ -56,12 +60,12 @@
                                 setTimeout(()=> {
                                     this.$router.push('/admin');
                                 }, 1000);
-                            } else {
-                                this.$message({
-                                    type: 'error',
-                                    message: res.data.resDesc
-                                });
                             }
+                        }).catch(res => {
+                            this.$message({
+                                type: 'error',
+                                message: res.data.resDesc
+                            });
                         });
                     } else {
                         // error

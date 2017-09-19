@@ -2,6 +2,9 @@
 <template>
     <div class="article-wrap">
         <div class="article-list">
+            <div class="query-wrap">
+                <el-input v-model="name" icon="search" @keyup.enter.native="onQueryClick"></el-input>
+            </div>
             <ul class="article-list-wrap">
                 <li v-for="(post, index) in tableData">
                     <p>
@@ -74,6 +77,7 @@
     export default {
         data () {
             return {
+                name: '',
                 tableData: [],
                 content: '',
                 tags: '',
@@ -93,9 +97,18 @@
             this.getAllArticles();
         },
         methods: {
+            onQueryClick () {
+                this.$http.post('/v2/articleList',{ title: this.name}).then(res => {
+                    if (res.data.resCode == 100) {
+                        this.tableData = res.data.dataList;
+                    } else {
+                        this.$message.error(res.data.resDesc);
+                    }
+                });
+            },
             // 获取所有文章
             getAllArticles () {
-                this.$http.post('/v2/articles').then(res => {
+                this.$http.post('/v2/articleList').then(res => {
                     if (res.data.resCode == 100) {
                         this.tableData = res.data.dataList;
                     } else {
@@ -256,6 +269,11 @@
             overflow-y: auto;
             max-width: 400px;
             border-right: 1px solid #ddd;
+            .query-wrap {
+                height: 60px;
+                border-bottom: 1px solid #ddd;
+                line-height: 60px;
+            }
             .article-list-wrap {
                 margin: 0;
                 padding: 0;

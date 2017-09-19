@@ -13,7 +13,7 @@ export default async(ctx, next) => {
     const token = authorization.split(' ')[1];
     let decode;
     try {
-        decode = jwt.verify(token, 'monster');
+        decode = jwt.verify(token, 'admin');
     } catch (err) {
         if ('TokenExpiredError' == err.name) {
             ctx.body = {

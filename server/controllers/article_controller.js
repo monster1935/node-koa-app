@@ -48,8 +48,12 @@ export async function getIndexList (ctx) {
 }
 // 获取所有文章,用于归档页的显示
 export async function getAllArticles(ctx) {
-    let res;
-    res = await Article.find().sort({"createTime":-1}).select('title createTime').catch(err => {
+    let res, query = {};
+    let title = ctx.request.body.title;
+    if (title) {
+        query = {title: new RegExp(title)};
+    }
+    res = await Article.find(query).sort({"createTime":-1}).select('title categories tags content createTime').catch(err => {
         ctx.throw(500, 'internal error');
     });
 

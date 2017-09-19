@@ -18,10 +18,10 @@ export default {
     },
     actions: {
         // 登录
-        login ({commit}, {username, psd}) {
+        login ({commit}, {username, password}) {
             // fetch api
             return new Promise((resolve, reject) => {
-                $http.post('/v1/login',{username, psd}).then(res => {
+                $http.post('/v1/login',{username, password}).then(res => {
                     if (res.data.resCode == 100) {
                         // 记录token
                         commit('SET_TOKEN',res.data.data);
@@ -29,7 +29,7 @@ export default {
                     } else {
                         // 删除token
                         commit('DEL_TOKEN');
-                        reject();
+                        reject(res);
                     }
                 });
             });
