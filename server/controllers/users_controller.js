@@ -109,7 +109,7 @@ export async function login (ctx) {
             data: {}
         };
     });
-    if (res.password === password) {
+    if (res && res.password === password) {
         // 直接返回成功
         const token = jwt.sign({
             name: res._id,

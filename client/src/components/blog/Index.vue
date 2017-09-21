@@ -143,6 +143,9 @@
             &:hover {
                 background: #ddd;
             }
+            .iconfont.icon-top {
+                margin-right: 0;
+            }
         }
     }
 </style>
